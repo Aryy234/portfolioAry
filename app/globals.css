@@ -1,0 +1,267 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 245, 245, 245;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 10, 10, 10;
+    --background-end-rgb: 20, 20, 20;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+/* View Transitions API styles */
+::view-transition-old(root) {
+  animation: fade-out 0.5s ease-in-out;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Ensure smooth transitions */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(*) {
+    animation-duration: 0.5s;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.cursor {
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Otros estilos existentes */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.glow-button {
+  animation: glow 5s ease-in-out infinite;
+}
+
+/* global.css */
+
+.button-glow {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease; /* Transición suave para el color del texto */
+}
+
+.button-glow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4); /* Degradado de colores */
+  background-size: 400%;
+  z-index: -1;
+  opacity: 0; /* Inicialmente invisible */
+  transition: opacity 0.3s ease, background-position 0.3s ease; /* Transiciones para opacidad y posición del fondo */
+}
+
+.button-glow:hover {
+  color: white; /* Cambia el color del texto en hover si es necesario */
+}
+
+.button-glow:hover::before {
+  opacity: 1; /* Hace visible el degradado en hover */
+  background-position: 100% 0; /* Mueve el degradado para la animación */
+}
+
+.button-animation {
+  /* Mantenemos la clase de escala para combinar efectos si deseas */
+  transition-property: transform;
+  transition-duration: 200ms;
+}
+
+.button-animation:hover {
+  transform: scale(1.05);
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.skill-icon {
+  opacity: 0;
+}
+
+.skill-icon-animated {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
+/* Agregar estos estilos a tu archivo global.css */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes buttonGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+  }
+}
+
+.button-glow {
+  transition: all 0.3s ease;
+}
+
+.button-glow:hover {
+  animation: buttonGlow 2s infinite;
+}
+
+.button-animation {
+  transition: transform 0.2s;
+}
+
+.button-animation:hover {
+  transform: translateY(-3px);
+}
+
+/* global.css - Add below @tailwind utilities; */
+
+.mobile-nav-link {
+  color: white !important; /* Force white text color for mobile nav links */
+}
+
+/* Estilos para el menú móvil */
+.mobile-nav {
+  background-color: #000000 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  min-height: 100vh !important;
+  height: 100% !important;
+}
+
+.mobile-nav-link {
+  color: white !important;
+}
+
+/* Asegurar que no haya transparencia en el menú móvil */
+.mobile-menu-overlay {
+  background-color: #000000 !important;
+  opacity: 1 !important;
+  min-height: 100vh !important;
+  height: 100% !important;
+}
+
+/* Añade estos estilos a tu archivo globals.css */
+
+/* Variables globales para el cursor */
+:root {
+  --cursor-size: 40px;
+}
+
+/* Oculta el cursor normal del navegador cuando se use el cursor personalizado */
+.use-custom-cursor {
+  cursor: none;
+}
+
+/* Asegúrate de que los elementos interactivos mantengan la apariencia del cursor personalizado */
+.use-custom-cursor a,
+.use-custom-cursor button,
+.use-custom-cursor input,
+.use-custom-cursor textarea,
+.use-custom-cursor select,
+.use-custom-cursor [role="button"] {
+  cursor: none !important;
+}
+
+/* Efecto de escala opcional para elementos interactivos */
+.use-custom-cursor a:hover .cursor-circle,
+.use-custom-cursor button:hover .cursor-circle,
+.use-custom-cursor [role="button"]:hover .cursor-circle {
+  transform: scale(1.2);
+}
+
