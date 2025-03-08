@@ -1,48 +1,51 @@
-let userConfig = undefined
+let userConfig;
+
 try {
-  userConfig = await import('./v0-user-next.config')
-} catch (e) {
-  // ignore error
+  userConfig = await import('./v0-user-next.config'); // Importa configuración adicional si está disponible
+} catch (error) {
+  console.warn("No se pudo cargar 'v0-user-next.config':", error.message); // Agrega un aviso para depuración
 }
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Ignora errores de ESLint durante la construcción
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, // Ignora errores de TypeScript para no detener la construcción
   },
   images: {
-    unoptimized: true,
+    unoptimized: true, // Evita la optimización de imágenes en caso de problemas
   },
   experimental: {
     webpackBuildWorker: false,
     parallelServerBuildTraces: false,
     parallelServerCompiles: false,
   },
-}
+};
 
-mergeConfig(nextConfig, userConfig)
+// Función para combinar configuraciones personalizadas con las predeterminadas
+mergeConfig(nextConfig, userConfig);
 
-function mergeConfig(nextConfig, userConfig) {
-  if (!userConfig) {
-    return
+function mergeConfig(baseConfig, customConfig) {
+  if (!customConfig) {
+    return; // Si no hay configuración personalizada, no hacer nada
   }
 
-  for (const key in userConfig) {
+  for (const key in customConfig) {
     if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
+      typeof baseConfig[key] === 'object' &&
+      !Array.isArray(baseConfig[key])
     ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
-        ...userConfig[key],
-      }
+      baseConfig[key] = {
+        ...baseConfig[key],
+        ...customConfig[key],
+      };
     } else {
-      nextConfig[key] = userConfig[key]
+      baseConfig[key] = customConfig[key];
     }
   }
 }
 
-export default nextConfig
+// Exporta la configuración final
+export default nextConfig;
