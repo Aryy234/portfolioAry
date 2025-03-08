@@ -1,37 +1,49 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Configuraciones básicas para evitar bloqueos durante la construcción
   eslint: {
-    // Ignorar errores de ESLint durante la construcción para evitar bloqueos
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Ignora errores de ESLint
   },
   typescript: {
-    // Ignorar errores de TypeScript durante la construcción para avanzar sin interrupciones
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, // Ignora errores de TypeScript
   },
   images: {
-    // No optimizar imágenes si hay problemas relacionados con la optimización de imágenes
-    unoptimized: true,
+    unoptimized: true, // Evita problemas de optimización de imágenes
   },
   experimental: {
-    // Desactivar funciones experimentales para evitar incompatibilidades
+    // Desactivar experimentos de Next.js que puedan ser incompatibles
     webpackBuildWorker: false,
     parallelServerBuildTraces: false,
     parallelServerCompiles: false,
   },
   webpack: (config) => {
-    // Configuración adicional para evitar problemas con Webpack
+    // Optimización de Webpack para reducir posibles problemas
     config.optimization = {
       ...config.optimization,
       splitChunks: {
-        maxSize: 200000, // Limitar el tamaño máximo de los chunks
+        maxSize: 200000, // Limita el tamaño máximo de los chunks
+      },
+    };
+
+    // Ajustes para prevenir errores relacionados con dependencias internas
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        fs: false,
+        path: false,
+        os: false,
       },
     };
 
     config.infrastructureLogging = {
-      debug: false, // Puedes cambiar esto a true para obtener logs más detallados si necesitas depurar
+      debug: false, // Cambia a true si necesitas más detalles de depuración
     };
 
     return config;
+  },
+  // Configuración para la telemetría
+  env: {
+    NEXT_TELEMETRY_DISABLED: "1", // Desactiva la telemetría de Next.js
   },
 };
 
